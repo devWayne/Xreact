@@ -1,0 +1,19 @@
+{
+  "name": "X-react",
+  "version": "0.0.1",
+  "homepage": "https://github.com/devWayne/X-react",
+  "authors": [
+    "Wayne <dev.wayne.ix@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

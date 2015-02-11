@@ -1,0 +1,29 @@
+{
+  "name": "X-react",
+  "version": "0.0.1",
+  "description": "",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devWayne/X-react.git"
+  },
+  "author": "Vi",
+  "license": "MIT",
+   "devDependencies": {
+        "bower": "^1.3.1",
+        "del": "^0.1.3",
+        "gulp": "^3.8.10",
+        "gulp-less": "^1.3.6",
+        "run-sequence": "^1.0.1",
+        "gulp-concat": "*",
+        "gulp-uglify": "*",
+        "mocha": "*"
+    },
+  "bugs": {
+    "url": "https://github.com/devWayne/X-react/issues"
+  },
+  "homepage": "https://github.com/devWayne/X-react"
+}
