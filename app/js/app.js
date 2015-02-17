@@ -17,10 +17,9 @@ var Comment = React.createClass({
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {
     $.ajax({
-      url: this.props.url,
-      dataType: 'json',
-      success: function(data) {
-        this.setState({data: data});
+	    url: '/XList',
+      	    success: function(data) {
+        this.setState({data: data.Xlist});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -35,12 +34,11 @@ var CommentBox = React.createClass({
       // `we'll send the ajax request right after we optimistically set the new
       // `state.
       $.ajax({
-        url: this.props.url,
-        dataType: 'json',
-        type: 'POST',
+        url: '/XList',
+      	      type: 'POST',
         data: comment,
         success: function(data) {
-          this.setState({data: data});
+          this.setState({data: data.Xlist});
         }.bind(this),
         error: function(xhr, status, err) {
           console.error(this.props.url, status, err.toString());
