@@ -9,6 +9,31 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 
 
+
+var _browserify = require('browserify');
+var source = require('vinyl-source-stream');
+var _ = require('lodash');
+var reactify = require('reactify');
+
+
+var browserify = function(opt) {
+    return _browserify(_.extend({
+        bundleExternal: true
+    }, opt));
+};
+
+gulp.task('browserify-build', function() {
+    var b = browserify();
+    b.add('./app/js/app.js');
+    return b.transform(reactify)
+        .bundle()
+        .pipe(source('app.js'))
+        .pipe(gulp.dest('dist/js'))
+});
+
+
+
+
 gulp.task('concat:js', function() {
     return gulp.src([
             'app/js/app.js'

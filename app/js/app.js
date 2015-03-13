@@ -1,14 +1,15 @@
-var converter = new Showdown.converter();
+var React = require('react'),
+injectTapEventPlugin = require("react-tap-event-plugin");
+injectTapEventPlugin();
 
 var Comment = React.createClass({
   render: function() {
-    var rawMarkup = converter.makeHtml(this.props.children.toString());
     return (
       <div className="comment">
         <h2 className="commentAuthor">
           {this.props.author}
         </h2>
-        <span dangerouslySetInnerHTML={{__html: rawMarkup}} />
+        <span>  {this.props.children}</span>
       </div>
     );
   }
@@ -17,9 +18,9 @@ var Comment = React.createClass({
 var CommentBox = React.createClass({
   loadCommentsFromServer: function() {
     $.ajax({
-	    url: '/XList',
+	    url: '/listmsg',
       	    success: function(data) {
-        this.setState({data: data.Xlist});
+        this.setState({data: data.msg});
       }.bind(this),
       error: function(xhr, status, err) {
         console.error(this.props.url, status, err.toString());
@@ -66,13 +67,13 @@ var CommentBox = React.createClass({
 
 var CommentList = React.createClass({
   render: function() {
-    var commentNodes = this.props.data.map(function(comment, index) {
+    var commentNodes = this.props.data.map(function(msg, index) {
       return (
         // `key` is a React-specific concept and is not mandatory for the
         // purpose of this tutorial. if you're curious, see more here:
         // http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
-        <Comment author={comment.author} key={index}>
-          {comment.text}
+        <Comment author={msg.author.nickname} key={index}>
+          {msg.content}
         </Comment>
       );
     });
@@ -86,7 +87,7 @@ var CommentList = React.createClass({
 
 var CommentForm = React.createClass({
   handleSubmit: function(e) {
-    e.preventDefault();
+    e.preventDefault()
     var author = this.refs.author.getDOMNode().value.trim();
     var text = this.refs.text.getDOMNode().value.trim();
     if (!text || !author) {
@@ -108,6 +109,6 @@ var CommentForm = React.createClass({
 });
 
 React.render(
-  <CommentBox url="comments.json" pollInterval={2000} />,
+  <CommentBox url="comments.json" pollInterval={1000*60} />,
   document.getElementById('content')
 );
