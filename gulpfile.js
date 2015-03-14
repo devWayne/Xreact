@@ -87,8 +87,8 @@ gulp.task('copy', [
 
 gulp.task('compile', [
     'compile:less',
-    'concat:js'
-]);
+    'browserify-build'
+    ]);
 
 
 gulp.task('build', function(done) {
@@ -100,4 +100,4 @@ gulp.task('build', function(done) {
 });
 
 
-gulp.task('default', ['build']);
+gulp.task('default', ['compile']);

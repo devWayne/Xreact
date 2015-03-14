@@ -1,4 +1,5 @@
-var React = require('react'),
+var React = require('react');
+var Timeline =require('./utils/timeline');
 injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();
 
@@ -7,8 +8,8 @@ var Comment = React.createClass({
     return (
       <div className="comment">
         <h2 className="commentAuthor">
-          {this.props.author}
-        </h2>
+          {this.props.author} 在 {this.props.timeline} 发布了 
+   	  </h2>
         <span>  {this.props.children}</span>
       </div>
     );
@@ -20,6 +21,9 @@ var CommentBox = React.createClass({
     $.ajax({
 	    url: '/listmsg',
       	    success: function(data) {
+	data.msg.forEach(function(v,idx){
+		v.timeline=Timeline(v.createdAt);
+	})
         this.setState({data: data.msg});
       }.bind(this),
       error: function(xhr, status, err) {
@@ -72,7 +76,7 @@ var CommentList = React.createClass({
         // `key` is a React-specific concept and is not mandatory for the
         // purpose of this tutorial. if you're curious, see more here:
         // http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
-        <Comment author={msg.author.nickname} key={index}>
+        <Comment author={msg.author.nickname} timeline={msg.timeline} key={index}>
           {msg.content}
         </Comment>
       );
