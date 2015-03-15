@@ -3,13 +3,45 @@ var Timeline =require('./utils/timeline');
 injectTapEventPlugin = require("react-tap-event-plugin");
 injectTapEventPlugin();
 
+//react-router config
+var Router = require('react-router'); 
+
+var DefaultRoute = Router.DefaultRoute;
+var Link = Router.Link;
+var Route = Router.Route;
+var RouteHandler = Router.RouteHandler;
+
+
+
+//var { Route, RouteHandler, Link } = Router;
+
+
+var TransitionGroup = require('react/lib/ReactCSSTransitionGroup');
+
+var App = React.createClass({
+  mixins: [ Router.State ],
+  render: function () {
+    return (
+    <div>
+    	<div className="nav">
+        	<div className="nav-li"><Link to="index">首页</Link></div>
+        	<div className="nav-li"><Link to="app">发布</Link></div>
+        	<div className="nav-li"><Link to="info">个人</Link></div>
+        </div>
+	<RouteHandler/>
+
+    </div>
+    );
+  }
+});
+
 var Comment = React.createClass({
   render: function() {
     return (
       <div className="comment">
-        <h2 className="commentAuthor">
+        <p className="commentAuthor">
           {this.props.author} 在 {this.props.timeline} 发布了 
-   	  </h2>
+   	  </p>
         <span>  {this.props.children}</span>
       </div>
     );
@@ -112,7 +144,22 @@ var CommentForm = React.createClass({
   }
 });
 
-React.render(
-  <CommentBox url="comments.json" pollInterval={1000*60} />,
-  document.getElementById('content')
+var CommentIndex= React.createClass({
+
+	render:function(){
+ 	 return (<CommentBox pollInterval={1000*60} />);
+	}
+});	
+
+
+
+var routes = (
+  <Route name="app" path="/" handler={App}>
+    <Route name="index" handler={CommentIndex} addHandlerKey={true} />
+    <Route name="info" handler={CommentIndex} addHandlerKey={true} />
+  </Route>
 );
+
+Router.run(routes, function (Handler) {
+  React.render(<Handler/>, document.body);
+});
