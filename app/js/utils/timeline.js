@@ -1,8 +1,8 @@
 function Timeline(_date, _nowDate) {
 
     if (!_nowDate) _nowDate = new Date();
-
-    var _dateTime = new Date(_date).getTime(),
+	_date=new Date(_date);
+    var _dateTime = _date.getTime(),
         _nowTime = _nowDate.getTime();
 
     var deltaTime = _nowTime - _dateTime;
