@@ -27,6 +27,7 @@
     "lodash": "^3.5.0",
     "material-ui": "^0.7.1",
     "mocha": "*",
+    "q": "^1.2.0",
     "react": "^0.12.2",
     "react-router": "^0.12.4",
     "react-tap-event-plugin": "^0.1.4",
