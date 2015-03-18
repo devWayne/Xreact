@@ -103,10 +103,14 @@ var PublishForm = React.createClass({
 	});
 
   },
+  stopSubmit:function(){
+  	return false;
+  
+  },
   render: function() {
     return (
 	<div>
-		<form ref="myForm">
+		<form ref="myForm" onSubmit={this.stopSubmit}>
 		<input type="file" name="file" multiple className="J_publish_img"  onChange={this.previewImage.bind(this)}/>
        	 		<div id="preview">
    		<img id="imghead1" />
