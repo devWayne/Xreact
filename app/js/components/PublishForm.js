@@ -9,12 +9,12 @@ var PublishForm = React.createClass({
     e.preventDefault();
     this.publishText().then(this.publishImg);
   },
-  publishText:function(){
+  publishText:function(res){
 	var deferred = Q.defer();
         $.ajax({
    	url:'/createmsg',
 	type:'POST',
-	data:{content:$('.J_publish_text').val()},
+	data:{content:$('.J_publish_text').val(),imgkey:res.imgkey},
 	success:function(res){
 	    deferred.resolve(res);
 	} 
@@ -22,29 +22,23 @@ var PublishForm = React.createClass({
 	 return deferred.promise;
   },
   publishImg:function(){
-	var myfile;
-	self=this;
 	var deferred = Q.defer();
-	$('.J_publish_img').bind("change", function(e) {
-      	var files = e.target.files || e.dataTransfer.files;
-      // Our file var now holds the selected file
-      	self.props.myfile = files[0];
-    	});
-	var filedata = new FormData();
-	 filedata.append('file-1',self.props.myfile);
-        $.ajax({
-   	url:'/uploadimg',
-	type:'POST',
-	data: filedata,
-	processData: false,
-        contentType: false,
-	contentType:'multipart/form-data',
-	success:function(res){
-	    deferred.resolve(res);
-	} 
-   	});
+	//var form =React.findDOMNode(this.refs.myForm); 
+	var form =$('form')[0];// You need to use standart javascript object here
+	var formData = new FormData(form);
+  	 $.ajax({
+   	 url: '/uploadimg',
+  	 data: formData,
+  	 type: "POST", //ADDED THIS LINE
+ 	   // THIS MUST BE DONE FOR FILE UPLOADING
+   	 contentType: false,
+   	 processData: false,
+   	 // ... Other options like success and etc
+	 success:function(res){
+	 	deferred.resolve(res);
+	 }	
+	});
 	return deferred.promise;
-	  
   },
   previewImage:function(e){
 	  file=e.target;
@@ -86,22 +80,7 @@ var PublishForm = React.createClass({
   },
 
   handleSubmit:function(){
-	//var form =React.findDOMNode(this.refs.myForm); 
-	var form =$('form')[0];// You need to use standart javascript object here
-	var formData = new FormData(form);
-  	 $.ajax({
-   	 url: '/uploadimg',
-  	 data: formData,
-  	 type: "POST", //ADDED THIS LINE
- 	   // THIS MUST BE DONE FOR FILE UPLOADING
-   	 contentType: false,
-   	 processData: false,
-   	 // ... Other options like success and etc
-	 success:function(res){
-	 
-	 }
-	});
-
+	this.publishImg().then(this.publishText)
   },
   stopSubmit:function(){
   	return false;
@@ -118,6 +97,7 @@ var PublishForm = React.createClass({
 		</div>
 		<button className="commentForm"  onClick={this.handleSubmit}>上传</button>
 		</form>
+		<input type="text" className="J_publish_text" />
 	</div>
     );
   }
