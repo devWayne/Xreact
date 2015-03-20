@@ -14,7 +14,7 @@ var PublishForm = React.createClass({
         $.ajax({
    	url:'/createmsg',
 	type:'POST',
-	data:{content:$('.J_publish_text').val(),imgkey:res.imgkey},
+	data:{content:$('.J_publish_text').val(),imgkey:res.imgkey,imgfilename:res.imgfilename},
 	success:function(res){
 	    deferred.resolve(res);
 	} 
