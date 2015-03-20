@@ -9,7 +9,10 @@ var Comment = React.createClass({
         <p className="commentAuthor">
           {this.props.author} 在 {this.props.timeline} 发布了 
    	  </p>
-        <span>  {this.props.children}</span>
+        <span>{this.props.children}</span>
+	  {this.props.imglink?this.props.imglink.map(function(link) {
+            return <img src={link}/>;
+          }):''}
       </div>
     );
   }
@@ -20,34 +23,21 @@ var CommentBox = React.createClass({
     $.ajax({
 	    url: '/listmsg',
       	    success: function(data) {
-	data.msg.forEach(function(v,idx){
-		v.timeline=Timeline(v.createdAt);
-	})
-        this.setState({data: data.msg});
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
-      }.bind(this)
-    });
-  },
-  handleCommentSubmit: function(comment) {
-    var comments = this.state.data;
-    comments.push(comment);
-    this.setState(function() {
-      // `setState` accepts a callback. To avoid (improbable) race condition,
-      // `we'll send the ajax request right after we optimistically set the new
-      // `state.
-      $.ajax({
-        url: '/XList',
-        type: 'POST',
-        data: comment,
-        success: function(data) {
-          return {data: data.Xlist}
-        },
-        error: function(xhr, status, err) {
-          console.error(this.props.url, status, err.toString());
-        }
-      });
+		data.msg.forEach(function(_msg,idx){
+		_msg.timeline=Timeline(_msg.createdAt);
+		if (_msg.imgfilename.length>0) {
+		_msg.imglink=[];
+               		_msg.imgfilename.forEach(function(v) {
+		    		var _link='http://localhost:3000/uploadimgs/'+_msg.imgkey+'/'+v;
+                   		 _msg.imglink.push(_link);
+                	});
+            	}
+		});
+                this.setState({data: data.msg});
+     	    }.bind(this),
+            error: function(xhr, status, err) {
+        	console.error(this.props.url, status, err.toString());
+     	    }.bind(this)
     });
   },
   getInitialState: function() {
@@ -74,7 +64,7 @@ var CommentList = React.createClass({
         // `key` is a React-specific concept and is not mandatory for the
         // purpose of this tutorial. if you're curious, see more here:
         // http://facebook.github.io/react/docs/multiple-components.html#dynamic-children
-        <Comment author={msg.author.nickname} timeline={msg.timeline} key={index}>
+        <Comment author={msg.author.nickname} timeline={msg.timeline} imglink={msg.imglink} key={index}>
           {msg.content}
         </Comment>
       );
