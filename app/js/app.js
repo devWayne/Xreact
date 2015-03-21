@@ -15,7 +15,7 @@ var RouteHandler = Router.RouteHandler;
 var CommentIndex=require('./components/CommentIndex');
 var PublishForm=require('./components/PublishForm');
 var RegisterForm=require('./components/RegisterForm');
-
+var Homepage= require('./components/Homepage');	
 
 var TransitionGroup = require('react/lib/ReactCSSTransitionGroup');
 
@@ -39,7 +39,8 @@ var routes = (
   <Route name="app" path="/" handler={App}>
     <Route name="index" handler={CommentIndex} addHandlerKey={true} />
     <Route name="publish" handler={PublishForm} addHandlerKey={true} />
-    <Route name="info" handler={RegisterForm} addHandlerKey={true} />
+    <Route name="info" handler={Homepage} addHandlerKey={true} />
+    <Route name="register" handler={RegisterForm} addHandlerKey={true} />
   </Route>
 );
 
