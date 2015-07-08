@@ -1,21 +1,22 @@
 {
-  "name": "X-react",
-  "version": "0.0.1",
-  "homepage": "https://github.com/devWayne/X-react",
-  "authors": [
-    "Wayne <dev.wayne.ix@gmail.com>"
-  ],
-  "license": "MIT",
-  "private": true,
-  "dependencies": {
-    "react": "~0.12.2",
-    "zepto": "~1.1.6"
-  },
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ]
+    "name": "X-react",
+    "version": "0.0.1",
+    "homepage": "https://github.com/devWayne/X-react",
+    "authors": [
+        "Wayne <dev.wayne.ix@gmail.com>"
+    ],
+    "license": "MIT",
+    "private": true,
+    "dependencies": {
+        "react": "*",
+        "zepto": "*",
+        "materialize": "*"
+    },
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests"
+    ]
 }
